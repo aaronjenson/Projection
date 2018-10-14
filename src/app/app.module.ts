@@ -3,9 +3,18 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatInputModule, MatSelectModule, MatToolbarModule} from '@angular/material';
+import {
+  MatCardModule,
+  MatCheckboxModule,
+  MatDividerModule,
+  MatInputModule,
+  MatSelectModule,
+  MatSlideToggleModule,
+  MatToolbarModule
+} from '@angular/material';
 import {SvgComponent} from './svg/svg.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,6 +27,11 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatToolbarModule,
     MatSelectModule,
     MatInputModule,
+    MatCardModule,
+    MatSlideToggleModule,
+    MatCheckboxModule,
+    MatDividerModule,
+    FormsModule,
     FlexLayoutModule
   ],
   providers: [],

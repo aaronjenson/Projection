@@ -1,1 +1,21 @@
-<div id="canvas_container"></div>
+<div fxLayout="row" fxLayoutGap="10px" style="padding: 10px">
+  <div fxFlex="30">
+    <mat-card>
+      <mat-card-title>Controls</mat-card-title>
+      <mat-card-content fxLayout="column">
+        <mat-form-field>
+          <input matInput [(ngModel)]="dimensions" (change)="reset()" type="number" placeholder="Dimensions" min="2">
+        </mat-form-field>
+        <div *ngFor="let rot of rotations" fxLayout="column">
+          <mat-slide-toggle [(ngModel)]="rot.active" (change)="redraw()">Rotate {{rot.basis1}}-{{rot.basis2}}?</mat-slide-toggle>
+          <mat-label align="end">Angle: {{toDegrees(rot.angle).toFixed(0)}}&deg;</mat-label>
+        </div>
+        <br>
+        <mat-checkbox [(ngModel)]="animate">Animate rotations?</mat-checkbox>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <mat-card>
+    <div id="canvas_container" fxFlex></div>
+  </mat-card>
+</div>

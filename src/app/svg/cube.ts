@@ -1,6 +1,7 @@
 import {Point} from './point';
 import * as Raphael from 'raphael';
 import {Matrix} from './matrix';
+import {Rotation} from './rotation';
 
 export class Cube {
   dimension: number;
@@ -30,19 +31,22 @@ export class Cube {
     });
   }
 
-  public draw(paper: RaphaelPaper) {
+  public draw(paper: RaphaelPaper, rotations: Rotation[]) {
     const self = this;
     paper.setStart();
     self.points.forEach((point: Point) => {
-      point.draw(paper);
+      point.draw(paper, rotations);
     });
     self.pointSet = paper.setFinish();
 
     paper.setStart();
+    self.points.forEach((point: Point) => {
+      point.resetConnections();
+    });
     self.points.forEach((point1: Point) => {
       self.points.forEach((point2: Point) => {
         if (point1.distance(point2) === Point.BASE_DIST) {
-          point1.drawConnection(paper, point2);
+          point1.drawConnection(paper, point2, rotations);
         }
       });
     });

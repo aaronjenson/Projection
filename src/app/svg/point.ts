@@ -1,4 +1,5 @@
 import {Matrix} from './matrix';
+import {Rotation} from './rotation';
 
 export class Point {
   public static COORD_ONE = 1;
@@ -43,7 +44,7 @@ export class Point {
     return new Point(...this.coordinates);
   }
 
-  public rotate(theta: number, basis1: number[], basis2: number[]) {
+  public rotate(theta: number, basis1: number, basis2: number) {
     // create rotation matrix
     // const rotBas = [[Math.cos(theta), -Math.sin(theta)],
     //   [Math.sin(theta), Math.cos(theta)]];
@@ -51,9 +52,7 @@ export class Point {
     // const basMatFlip = Matrix.flip(basMat);
     // const rotMat = Matrix.mult(Matrix.mult(basMat, rotBas), basMatFlip);
 
-    const rotMat = [[Math.cos(theta), 0, -Math.sin(theta)],
-      [0, 1, 0],
-      [Math.sin(theta), 0, Math.cos(theta)]];
+    const rotMat = this.getRotationMatrix(theta, basis1, basis2);
 
     this.coordinates = Matrix.vectorMult(rotMat, this.coordinates);
   }
@@ -66,26 +65,32 @@ export class Point {
     return Math.sqrt(squareSum);
   }
 
-  public get2DCoords() {
+  public get2DCoords(rotations: Rotation[]) {
     const point = this.from();
-    point.rotate(Math.PI / 7, [1, 0, 0], [0, 0, 1]);
+
+    rotations.forEach((rotation) => {
+      if (rotation.active) {
+        point.rotate(rotation.angle, rotation.basis1, rotation.basis2);
+      }
+    });
+
     while (point.coordinates.length > 2) {
       point.removeDimension();
     }
     return point.coordinates;
   }
 
-  public getPaperCoords(paper: RaphaelPaper) {
+  public getPaperCoords(paper: RaphaelPaper, rotations: Rotation[]) {
     return Matrix.vectorMult([[paper.width / (Point.BASE_DIST * 2 * Point.SCALE), 0], [0, paper.height /
-    (Point.BASE_DIST * 2 * Point.SCALE)]], this.get2DCoords().map((num) => num + Point.BASE_DIST * Point.SCALE));
+    (Point.BASE_DIST * 2 * Point.SCALE)]], this.get2DCoords(rotations).map((num) => num + Point.BASE_DIST * Point.SCALE));
   }
 
-  public draw(paper: RaphaelPaper) {
-    const point2D = this.getPaperCoords(paper);
+  public draw(paper: RaphaelPaper, rotations: Rotation[]) {
+    const point2D = this.getPaperCoords(paper, rotations);
     paper.circle(point2D[0], point2D[1], 5);
   }
 
-  public drawConnection(paper: RaphaelPaper, point: Point) {
+  public drawConnection(paper: RaphaelPaper, point: Point, rotations: Rotation[]) {
     if (this.connections.includes(point)) {
       return;
     }
@@ -95,11 +100,39 @@ export class Point {
     this.addConnection(point);
     point.addConnection(this);
 
-    const pathString = 'M' + this.getPaperCoords(paper).join(' ') + 'L' + point.getPaperCoords(paper).join(' ');
+    const pathString = 'M' + this.getPaperCoords(paper, rotations).join(' ') + 'L' +
+      point.getPaperCoords(paper, rotations).join(' ');
     paper.path(pathString);
   }
 
   public addConnection(point: Point) {
     this.connections.push(point);
+  }
+
+  public resetConnections() {
+    this.connections = [];
+  }
+
+  public getRotationMatrix(theta: number, basis1: number, basis2: number) {
+    const output = [];
+    for (let row = 0; row < this.coordinates.length; row++) {
+      output.push([]);
+      for (let col = 0; col < this.coordinates.length; col++) {
+        if (row === (basis1 - 1) && col === (basis1 - 1)) {
+          output[row].push(Math.cos(theta));
+        } else if (row === (basis1 - 1) && col === (basis2 - 1)) {
+          output[row].push(-Math.sin(theta));
+        } else if (row === (basis2 - 1) && col === (basis1 - 1)) {
+          output[row].push(Math.sin(theta));
+        } else if (row === (basis2 - 1) && col === (basis2 - 1)) {
+          output[row].push(Math.cos(theta));
+        } else if (row === col) {
+          output[row].push(1);
+        } else {
+          output[row].push(0);
+        }
+      }
+    }
+    return output;
   }
 }
