@@ -10,7 +10,8 @@
         <div *ngFor="let rot of rotations">
           <mat-expansion-panel>
             <mat-expansion-panel-header fxLayout="row" fxLayoutAlign="space-around center">
-              <mat-slide-toggle fxFlex [(ngModel)]="rot.active" (change)="redraw()">Rotate
+              <mat-slide-toggle fxFlex [(ngModel)]="rot.active" (change)="redraw();" (click)="$event.stopPropagation()">
+                Rotate
                 {{rot.basis1}}-{{rot.basis2}}?
               </mat-slide-toggle>
               <mat-label fxFlex align="end" style="padding-right: 10px; color: rgba(0,0,0,0.54)">
