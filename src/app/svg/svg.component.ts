@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import * as Raphael from 'raphael';
 import {Cube} from './cube';
 import {Rotation} from './rotation';
-import {Observable, Subscription} from 'rxjs';
-import {interval} from 'rxjs';
+import {interval, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-svg',
@@ -16,7 +15,6 @@ export class SvgComponent implements OnInit {
 
   dimensions: number;
   rotations: Rotation[];
-  animate: boolean;
   paper: RaphaelPaper;
   cube: Cube;
   loop: Subscription;
@@ -26,18 +24,22 @@ export class SvgComponent implements OnInit {
 
   ngOnInit() {
     this.dimensions = 3;
-    this.animate = true;
 
-    this.paper = Raphael('canvas_container', 500, 500);
+    const container = document.getElementById('canvas_container');
+    this.paper = Raphael(container, container.offsetWidth, container.offsetHeight);
     this.reset();
 
     this.loop = interval(1000.0 / SvgComponent.FPS)
       .subscribe(() => {
-        if (this.animate) {
-          this.updateRotations();
-          this.redraw();
-        }
+        this.updateRotations();
+        this.redraw();
       });
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(eve) {
+    const container = document.getElementById('canvas_container');
+    this.paper.setSize(container.offsetWidth, container.offsetHeight);
   }
 
   reset() {
@@ -55,15 +57,19 @@ export class SvgComponent implements OnInit {
     return rad * 180 / Math.PI;
   }
 
+  toDegreesString(rad: number) {
+    return ('' + (rad * 180 / Math.PI).toFixed(0));
+  }
+
   getRotations() {
     this.rotations = [];
     for (let i = 1; i < this.dimensions; i++) {
       for (let j = i + 1; j <= this.dimensions; j++) {
         this.rotations.push({
-          angle: Math.PI / 6,
+          angle: 0,
           basis1: i,
           basis2: j,
-          active: false
+          active: (i === 1 && j === this.dimensions)
         });
       }
     }

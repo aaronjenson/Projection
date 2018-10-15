@@ -7,8 +7,10 @@ import {
   MatCardModule,
   MatCheckboxModule,
   MatDividerModule,
+  MatExpansionModule,
   MatInputModule,
   MatSelectModule,
+  MatSliderModule,
   MatSlideToggleModule,
   MatToolbarModule
 } from '@angular/material';
@@ -31,6 +33,8 @@ import {FormsModule} from '@angular/forms';
     MatSlideToggleModule,
     MatCheckboxModule,
     MatDividerModule,
+    MatExpansionModule,
+    MatSliderModule,
     FormsModule,
     FlexLayoutModule
   ],

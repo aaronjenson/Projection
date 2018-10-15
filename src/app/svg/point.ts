@@ -5,7 +5,7 @@ export class Point {
   public static COORD_ONE = 1;
   public static COORD_TWO = -Point.COORD_ONE;
   public static BASE_DIST = Point.COORD_ONE - Point.COORD_TWO;
-  public static CAMERA_DIST = 3;
+  public static CAMERA_DIST = 4;
   public static SCALE = 1;
 
   coordinates: number[];
@@ -45,15 +45,7 @@ export class Point {
   }
 
   public rotate(theta: number, basis1: number, basis2: number) {
-    // create rotation matrix
-    // const rotBas = [[Math.cos(theta), -Math.sin(theta)],
-    //   [Math.sin(theta), Math.cos(theta)]];
-    // const basMat = Matrix.from(basis1, basis2);
-    // const basMatFlip = Matrix.flip(basMat);
-    // const rotMat = Matrix.mult(Matrix.mult(basMat, rotBas), basMatFlip);
-
     const rotMat = this.getRotationMatrix(theta, basis1, basis2);
-
     this.coordinates = Matrix.vectorMult(rotMat, this.coordinates);
   }
 
@@ -69,9 +61,7 @@ export class Point {
     const point = this.from();
 
     rotations.forEach((rotation) => {
-      if (rotation.active) {
-        point.rotate(rotation.angle, rotation.basis1, rotation.basis2);
-      }
+      point.rotate(rotation.angle, rotation.basis1, rotation.basis2);
     });
 
     while (point.coordinates.length > 2) {

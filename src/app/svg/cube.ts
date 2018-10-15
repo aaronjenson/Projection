@@ -1,6 +1,4 @@
 import {Point} from './point';
-import * as Raphael from 'raphael';
-import {Matrix} from './matrix';
 import {Rotation} from './rotation';
 
 export class Cube {
