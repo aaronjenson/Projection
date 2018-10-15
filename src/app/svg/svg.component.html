@@ -18,10 +18,11 @@
                 {{toDegrees(rot.angle).toFixed(0)}}&deg;
               </mat-label>
             </mat-expansion-panel-header>
-            <label>Angle:</label>
-            <br>
-            <mat-slider [(ngModel)]="rot.angle" [displayWith]="toDegreesString" (valueChange)="redraw()" thumbLabel
-                        min="0" max="6.28" step="0.01"></mat-slider>
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+              <label>Angle:</label>
+              <mat-slider [(ngModel)]="rot.angle" [displayWith]="toDegreesString"
+                          (input)="rot.angle=$event.value;redraw();" min="0" max="6.28" step="0.01"></mat-slider>
+            </div>
           </mat-expansion-panel>
         </div>
       </mat-card-content>
