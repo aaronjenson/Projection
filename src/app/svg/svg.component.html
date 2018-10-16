@@ -1,8 +1,9 @@
-<div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" style="padding: 10px; width: 90vw; max-width: 125vmin">
-  <mat-card fxFlex.gt-xs="60" style="width: 70vmin; height: 70vmin">
-    <div id="canvas_container" style="width: 100%; height: 100%"></div>
+<div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="center" fxLayoutGap="10px" style="padding: 10px;">
+  <mat-card ngStyle.gt-xs="width: 85vmin; height: 85vmin; max-width: 60vw; max-height: 60vw;"
+            ngStyle.lt-sm="width: 100%; height: 100%; max-height: 100vw">
+    <div fxFlex id="canvas_container" ngStyle.gt-xs="height: 100%; width: 100%;"></div>
   </mat-card>
-  <div fxFlex.gt-xs="40">
+  <div fxFlex.gt-sm="30" fxFlex.sm="40">
     <mat-card style="max-height: available">
       <mat-card-title>Controls</mat-card-title>
       <mat-card-content fxLayout="column">
@@ -22,8 +23,8 @@
               </mat-label>
             </mat-expansion-panel-header>
             <div fxLayout="row" fxLayoutAlign="space-between center">
-              <label>Angle:</label>
-              <mat-slider [(ngModel)]="rot.angle" [displayWith]="toDegreesString"
+              <label fxFlex="30">Angle:</label>
+              <mat-slider fxFlex="70" [(ngModel)]="rot.angle"
                           (input)="rot.angle=$event.value;redraw();" min="0" max="6.28" step="0.01"></mat-slider>
             </div>
           </mat-expansion-panel>

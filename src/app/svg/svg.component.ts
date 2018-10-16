@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as Raphael from 'raphael';
 import {Cube} from './cube';
 import {Rotation} from './rotation';
@@ -11,7 +11,7 @@ import {interval, Subscription} from 'rxjs';
 })
 export class SvgComponent implements OnInit {
   public static ANGULAR_VEL = Math.PI / 2; // rad/s
-  public static FPS = 30; // updates per second
+  public static FPS = 30; // frames per second
 
   dimensions: number;
   rotations: Rotation[];
@@ -31,13 +31,13 @@ export class SvgComponent implements OnInit {
 
     this.loop = interval(1000.0 / SvgComponent.FPS)
       .subscribe(() => {
+        this.resizeSvg();
         this.updateRotations();
         this.redraw();
       });
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(eve) {
+  resizeSvg() {
     const container = document.getElementById('canvas_container');
     this.paper.setSize(container.offsetWidth, container.offsetHeight);
   }
@@ -55,10 +55,6 @@ export class SvgComponent implements OnInit {
 
   toDegrees(rad: number) {
     return rad * 180 / Math.PI;
-  }
-
-  toDegreesString(rad: number) {
-    return ('' + (rad * 180 / Math.PI).toFixed(0));
   }
 
   getRotations() {
