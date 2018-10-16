@@ -1,27 +1,24 @@
 # Projection
+This is an Angular web application that displays n-dimensional cubes, and allows animating rotation on any planes.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.5.
+The live site can be found [here](https://aaronjenson.github.io/Projection/).
 
-## Development server
+### How it works
+The points for a cube are generated, then multiplied by a [rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix) for each rotation being applied.
+Each point is then converted to a 2d point, repeatedly applying a simple [perspective projection](https://en.wikipedia.org/wiki/3D_projection#Weak_perspective_projection).
+Points are then drawn, and each pair of points located one unit away from each other is connected (this is equivalent to connecting each vertex).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+This project is based off a Coding Challenge by The Coding Train, [4D Hypercube (aka "Tesseract")](http://thecodingtrain.com/CodingChallenges/113-hypercube.html),
+and just generalizes this approach for any dimension.
 
-## Code scaffolding
+Rendering is done using [Raphael](http://dmitrybaranovskiy.github.io/raphael/), the UX uses Angular-Material, and the whole page runs on Angular 6.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Limitations
+The current implementation has trouble drawing cubes in dimensions higher than about 5, and cannot even create a cube above the 12th dimension.
+This is partly because each point currently calculates its rotations and projection multiple times for each frame.
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Local development instructions
+Requires node / npm to be installed. After cloning, run `npm install` to install dependencies. Now run `ng serve`,
+and any code changes you make will automatically be compiled, and your page will be refreshed. If you've forked this code,
+`ng deploy` will publish the site to the gh-pages branch of your repository, though this will only work correctly if you
+change the urls in package.json and in various locations in the html.
