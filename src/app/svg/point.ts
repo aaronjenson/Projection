@@ -2,11 +2,13 @@ import {Matrix} from './matrix';
 import {Rotation} from './rotation';
 
 export class Point {
-  public static COORD_ONE = 1;
+  public static COORD_ONE = -0.05;
   public static COORD_TWO = -Point.COORD_ONE;
-  public static BASE_DIST = Point.COORD_ONE - Point.COORD_TWO;
-  public static CAMERA_DIST = 4;
+  public static BASE_DIST = Point.COORD_TWO - Point.COORD_ONE;
+  public static CAMERA_DIST = 1;
   public static SCALE = 1;
+
+  public static MAX_VAL = 0;
 
   coordinates: number[];
   connections: Point[];
@@ -29,15 +31,8 @@ export class Point {
    */
   private removeDimension() {
     const scale = 1 / (Point.CAMERA_DIST - this.coordinates[this.coordinates.length - 1]);
-    // setup projection matrix
-    const mat = [];
-    for (let i = 0; i < this.coordinates.length - 1; i++) {
-      mat.push([]);
-      for (let j = 0; j < this.coordinates.length; j++) {
-        mat[i].push(i === j ? scale : 0);
-      }
-    }
-    this.coordinates = Matrix.vectorMult(mat, this.coordinates);
+    this.coordinates = this.coordinates.map((val) => val * scale);
+    this.coordinates.pop();
   }
 
   public from() {
@@ -57,6 +52,10 @@ export class Point {
     return Math.sqrt(squareSum);
   }
 
+  public map(val: number, inMin: number, inMax: number, outMin: number, outMax: number) {
+    return (((val - inMin) / (inMax - inMin)) * (outMax - outMin)) + outMin;
+  }
+
   public get2DCoords(rotations: Rotation[]) {
     const point = this.from();
 
@@ -67,12 +66,21 @@ export class Point {
     while (point.coordinates.length > 2) {
       point.removeDimension();
     }
+
+    point.coordinates.forEach((val) => {
+      if (val > Point.MAX_VAL) {
+        Point.MAX_VAL = val;
+        console.log(Point.MAX_VAL);
+      }
+    });
     return point.coordinates;
   }
 
   public getPaperCoords(paper: RaphaelPaper, rotations: Rotation[]) {
-    return Matrix.vectorMult([[paper.width / (Point.BASE_DIST * 2 * Point.SCALE), 0], [0, paper.height /
-    (Point.BASE_DIST * 2 * Point.SCALE)]], this.get2DCoords(rotations).map((num) => num + Point.BASE_DIST * Point.SCALE));
+    const self = this;
+    const coords2D = this.get2DCoords(rotations);
+    const coords = coords2D.map((val) => self.map(val, Point.COORD_ONE - 0.125, Point.COORD_TWO + 0.125, 0, paper.width));
+    return coords;
   }
 
   public draw(paper: RaphaelPaper, rotations: Rotation[]) {
