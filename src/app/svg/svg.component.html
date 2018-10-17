@@ -16,7 +16,7 @@
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <mat-form-field>
             <input matInput [(ngModel)]="dimensions" (change)="reset()" type="number" placeholder="Dimensions" min="2"
-                   max="12">
+                   max="12" matTooltip="Change number of dimensions">
           </mat-form-field>
           <div>
             <button mat-icon-button (click)="reversed=!reversed" matTooltip="Toggle rotation direction"
