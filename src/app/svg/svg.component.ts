@@ -18,12 +18,14 @@ export class SvgComponent implements OnInit {
   paper: RaphaelPaper;
   cube: Cube;
   loop: Subscription;
+  animate: boolean;
 
   constructor() {
   }
 
   ngOnInit() {
     this.dimensions = 3;
+    this.animate = true;
 
     const container = document.getElementById('canvas_container');
     this.paper = Raphael(container, container.offsetWidth, container.offsetHeight);
@@ -32,8 +34,10 @@ export class SvgComponent implements OnInit {
     this.loop = interval(1000.0 / SvgComponent.FPS)
       .subscribe(() => {
         this.resizeSvg();
-        this.updateRotations();
-        this.redraw();
+        if (this.animate) {
+          this.updateRotations();
+          this.redraw();
+        }
       });
   }
 
