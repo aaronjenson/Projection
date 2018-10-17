@@ -1,0 +1,27 @@
+<mat-dialog-content ngStyle.gt-xs="max-width: 50vw">
+  <h3>What does this page do?</h3>
+  <p>The page allows you to view animations of n-dimensional cubes. This means that you can choose what dimension the
+    cube will be in. By changing the state of the toggle switches, you can add animated rotation to any plane of the
+    current dimension. If you expand the panel for any rotation plane (by clicking the arrow to the side), you can
+    manually adjust the rotation of that plane. Also, you can click the play/pause button at the top of the controls at
+    anytime to stop the cube in it's tracks.</p>
+  <h3>Explain the rotation naming system.</h3>
+  <p>It is a common misconception that rotations are performed about an axis. While rotations and an individual axis do
+    coincide in the third dimension, where most of us spend the vast majority of their time, this doesn't extend to
+    higher dimensions. Rather, rotations are performed on a plane consisting of two axes. To make labeling in the higher
+    dimensions easier, axes are labeled by numbers rather than letters. These numbers apply to standard axes, with axis
+    #1 corresponding with the X-axis, #2 with the Y-axis, and so on.</p>
+  <h3>How does this work?</h3>
+  <p>This project is open-sourced on GitHub! You can find the code that runs this page, as well as more technical
+    details about the inner workings of this site <a href="https://github.com/aaronjenson/Projection/">here</a>, or by
+    following the link in the upper right corner of the page.</p>
+  <h3>What made this project possible?</h3>
+  <p>This project was inspired by <a href="http://thecodingtrain.com/CodingChallenges/113-hypercube.html">a Coding
+    Challenge by The Coding Train</a>. This project also depends on the <a href="https://angular.io/">Angular web
+    framework </a>and the <a href="https://material.angular.io/">Angular Material</a> library, as well as
+    <a href="http://dmitrybaranovskiy.github.io/raphael/">Raphael</a>, a canvas rendering library used to draw the
+    cubes.</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>
