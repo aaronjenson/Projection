@@ -22,6 +22,7 @@ export class SvgComponent implements OnInit {
   loop: Subscription;
   animate: boolean;
   velocityMult: number;
+  reversed: boolean;
 
   constructor(public dialog: MatDialog) {
   }
@@ -29,6 +30,7 @@ export class SvgComponent implements OnInit {
   ngOnInit() {
     this.dimensions = 3;
     this.animate = true;
+    this.reversed = false;
     this.velocityMult = 1;
 
     const container = document.getElementById('canvas_container');
@@ -83,9 +85,13 @@ export class SvgComponent implements OnInit {
   updateRotations() {
     this.rotations.forEach((rot) => {
       if (rot.active) {
-        rot.angle += this.velocityMult * rot.velocity / SvgComponent.FPS;
+        const directionMult = this.reversed ? -1 : 1;
+        rot.angle += directionMult * this.velocityMult * rot.velocity / SvgComponent.FPS;
         while (rot.angle > Math.PI * 2) {
           rot.angle -= Math.PI * 2;
+        }
+        while (rot.angle < 0) {
+          rot.angle += Math.PI * 2;
         }
       }
     });

@@ -18,11 +18,18 @@
             <input matInput [(ngModel)]="dimensions" (change)="reset()" type="number" placeholder="Dimensions" min="2"
                    max="12">
           </mat-form-field>
-          <button mat-icon-button (click)="animate=!animate" matTooltip="{{!animate ? 'Start' : 'Stop'}} animation"
-                  matTooltipPosition="left">
-            <mat-icon *ngIf="!animate">play_arrow</mat-icon>
-            <mat-icon *ngIf="animate">pause</mat-icon>
-          </button>
+          <div>
+            <button mat-icon-button (click)="reversed=!reversed" matTooltip="Toggle rotation direction"
+                    matTooltipPosition="left">
+              <mat-icon *ngIf="!reversed">fast_rewind</mat-icon>
+              <mat-icon *ngIf="reversed">fast_forward</mat-icon>
+            </button>
+            <button mat-icon-button (click)="animate=!animate" matTooltip="{{!animate ? 'Start' : 'Stop'}} animation"
+                    matTooltipPosition="left">
+              <mat-icon *ngIf="!animate">play_arrow</mat-icon>
+              <mat-icon *ngIf="animate">pause</mat-icon>
+            </button>
+          </div>
         </div>
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <mat-label fxFlex="30">Velocity:</mat-label>
