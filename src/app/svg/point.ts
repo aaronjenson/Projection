@@ -8,8 +8,6 @@ export class Point {
   public static CAMERA_DIST = 1;
   public static SCALE = 1;
 
-  public static MAX_VAL = 0;
-
   coordinates: number[];
   connections: Point[];
 
@@ -66,13 +64,6 @@ export class Point {
     while (point.coordinates.length > 2) {
       point.removeDimension();
     }
-
-    point.coordinates.forEach((val) => {
-      if (val > Point.MAX_VAL) {
-        Point.MAX_VAL = val;
-        console.log(Point.MAX_VAL);
-      }
-    });
     return point.coordinates;
   }
 

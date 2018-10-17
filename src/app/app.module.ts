@@ -7,6 +7,7 @@ import {
   MatButtonModule,
   MatCardModule,
   MatCheckboxModule,
+  MatDialogModule,
   MatDividerModule,
   MatExpansionModule,
   MatIconModule,
@@ -14,16 +15,22 @@ import {
   MatSelectModule,
   MatSliderModule,
   MatSlideToggleModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatTooltipModule
 } from '@angular/material';
 import {SvgComponent} from './svg/svg.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
+import {HelpComponent} from './svg/help/help.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SvgComponent
+    SvgComponent,
+    HelpComponent
+  ],
+  entryComponents: [
+    HelpComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +46,8 @@ import {FormsModule} from '@angular/forms';
     MatSliderModule,
     MatIconModule,
     MatButtonModule,
+    MatTooltipModule,
+    MatDialogModule,
     FormsModule,
     FlexLayoutModule
   ],

@@ -3,6 +3,8 @@ import * as Raphael from 'raphael';
 import {Cube} from './cube';
 import {Rotation} from './rotation';
 import {interval, Subscription} from 'rxjs';
+import {MatDialog} from '@angular/material';
+import {HelpComponent} from './help/help.component';
 
 @Component({
   selector: 'app-svg',
@@ -20,7 +22,7 @@ export class SvgComponent implements OnInit {
   loop: Subscription;
   animate: boolean;
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -84,5 +86,9 @@ export class SvgComponent implements OnInit {
         }
       }
     });
+  }
+
+  showHelpDialog() {
+    this.dialog.open(HelpComponent);
   }
 }
