@@ -68,18 +68,27 @@ export class SvgComponent implements OnInit {
   }
 
   getRotations() {
-    this.rotations = [];
-    for (let i = 1; i < this.dimensions; i++) {
-      for (let j = i + 1; j <= this.dimensions; j++) {
-        this.rotations.push({
-          angle: 0,
-          basis1: i,
-          basis2: j,
-          active: (i === 1 && j === this.dimensions),
-          velocity: SvgComponent.DEFAULT_ANGULAR_VEL
-        });
+    if (typeof(this.rotations) === 'undefined') {
+      this.rotations = [];
+    }
+    const oldDimensions = this.rotations.reduce((max, rot) => Math.max(max, rot.basis2), 0);
+    if (this.dimensions > oldDimensions) {
+      for (let i = 1; i < this.dimensions; i++) {
+        for (let j = i + 1; j <= this.dimensions; j++) {
+          if (this.rotations.find((val) => val.basis1 === i && val.basis2 === j) === undefined) {
+            this.rotations.push({
+              angle: 0,
+              basis1: i,
+              basis2: j,
+              active: (i === 1 && j === this.dimensions),
+              velocity: SvgComponent.DEFAULT_ANGULAR_VEL
+            });
+          }
+        }
       }
     }
+
+    this.rotations = this.rotations.filter((rot) => rot.basis1 <= this.dimensions && rot.basis2 <= this.dimensions);
   }
 
   updateRotations() {
