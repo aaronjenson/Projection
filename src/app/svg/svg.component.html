@@ -24,6 +24,11 @@
             <mat-icon *ngIf="animate">pause</mat-icon>
           </button>
         </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <mat-label fxFlex="30">Velocity:</mat-label>
+          <mat-slider fxFlex="70" [(ngModel)]="velocityMult" (input)="velocityMult=$event.value" min="0" max="2"
+                      step="0.1" matTooltip="Master velocity control" thumbLabel></mat-slider>
+        </div>
         <div *ngFor="let rot of rotations">
           <mat-expansion-panel>
             <mat-expansion-panel-header fxLayout="row" fxLayoutAlign="space-around center">
@@ -40,6 +45,11 @@
               <label fxFlex="30">Angle:</label>
               <mat-slider fxFlex="70" [(ngModel)]="rot.angle" (input)="rot.angle=$event.value;redraw();"
                           min="0" max="6.28" step="0.01" matTooltip="Manually adjust angle"></mat-slider>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+              <label fxFlex="30">Velocity:</label>
+              <mat-slider fxFlex="70" [(ngModel)]="rot.velocity" (input)="rot.velocity=$event.value;redraw();"
+                          min="0.01" max="6.28" step="0.01" matTooltip="Adjust rotation speed"></mat-slider>
             </div>
           </mat-expansion-panel>
         </div>

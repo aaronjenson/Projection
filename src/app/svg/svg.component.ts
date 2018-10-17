@@ -12,7 +12,7 @@ import {HelpComponent} from './help/help.component';
   styleUrls: ['./svg.component.css']
 })
 export class SvgComponent implements OnInit {
-  public static ANGULAR_VEL = Math.PI / 2; // rad/s
+  public static DEFAULT_ANGULAR_VEL = Math.PI / 2; // rad/s
   public static FPS = 30; // frames per second
 
   dimensions: number;
@@ -21,6 +21,7 @@ export class SvgComponent implements OnInit {
   cube: Cube;
   loop: Subscription;
   animate: boolean;
+  velocityMult: number;
 
   constructor(public dialog: MatDialog) {
   }
@@ -28,6 +29,7 @@ export class SvgComponent implements OnInit {
   ngOnInit() {
     this.dimensions = 3;
     this.animate = true;
+    this.velocityMult = 1;
 
     const container = document.getElementById('canvas_container');
     this.paper = Raphael(container, container.offsetWidth, container.offsetHeight);
@@ -71,7 +73,8 @@ export class SvgComponent implements OnInit {
           angle: 0,
           basis1: i,
           basis2: j,
-          active: (i === 1 && j === this.dimensions)
+          active: (i === 1 && j === this.dimensions),
+          velocity: SvgComponent.DEFAULT_ANGULAR_VEL
         });
       }
     }
@@ -80,7 +83,7 @@ export class SvgComponent implements OnInit {
   updateRotations() {
     this.rotations.forEach((rot) => {
       if (rot.active) {
-        rot.angle += SvgComponent.ANGULAR_VEL / SvgComponent.FPS;
+        rot.angle += this.velocityMult * rot.velocity / SvgComponent.FPS;
         while (rot.angle > Math.PI * 2) {
           rot.angle -= Math.PI * 2;
         }

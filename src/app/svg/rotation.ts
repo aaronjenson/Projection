@@ -3,4 +3,5 @@ export interface Rotation {
   basis1: number;
   basis2: number;
   active: boolean;
+  velocity: number;
 }
