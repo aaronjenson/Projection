@@ -9,11 +9,13 @@ export class Point {
   public static SCALE = 1;
 
   coordinates: number[];
+  coordinates2D: number[];
   connections: Point[];
 
   constructor(...coords: number[]) {
     const self = this;
     self.coordinates = [];
+    self.coordinates2D = [];
     self.connections = [];
     coords.forEach((num) => {
       self.coordinates.push(num);
@@ -71,6 +73,7 @@ export class Point {
     const self = this;
     const coords2D = this.get2DCoords(rotations);
     const coords = coords2D.map((val) => self.map(val, Point.COORD_ONE - 0.125, Point.COORD_TWO + 0.125, 0, paper.width));
+    // this.coordinates2D = coords;
     return coords;
   }
 

@@ -6,6 +6,10 @@ export class Matrix {
    * @return number[] point with [matrix rows] dimensions
    */
   public static vectorMult(matrix: number[][], point: number[]) {
+    if (matrix.length === 0 || matrix[0].length !== point.length) {
+      throw new Error('matrix/point dimensions invalid');
+    }
+
     const output = [];
 
     for (let i = 0; i < matrix.length; i++) {  // row
@@ -24,6 +28,9 @@ export class Matrix {
    * @param matrix2 second matrix
    */
   public static mult(matrix1: number[][], matrix2: number[][]) {
+    if (matrix1.length === 0 || matrix2.length === 0 || matrix1[0].length !== matrix2.length) {
+      throw new Error('matrix dimensions invalid');
+    }
     const output = [];
 
     for (let i = 0; i < matrix1.length; i++) {

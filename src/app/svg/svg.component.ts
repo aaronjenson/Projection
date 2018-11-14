@@ -23,12 +23,14 @@ export class SvgComponent implements OnInit {
   animate: boolean;
   velocityMult: number;
   reversed: boolean;
+  lastTime: number;
 
   constructor(public dialog: MatDialog) {
+    this.lastTime = Date.now();
   }
 
   ngOnInit() {
-    this.dimensions = 3;
+    this.dimensions = 2;
     this.animate = true;
     this.reversed = false;
     this.velocityMult = 1;
@@ -43,6 +45,9 @@ export class SvgComponent implements OnInit {
         if (this.animate) {
           this.updateRotations();
           this.redraw();
+          const timeDiff = Date.now() - this.lastTime;
+          this.lastTime = Date.now();
+          this.paper.text(25, 5, 'FPS: ' + (1000 / timeDiff).toFixed(1));
         }
       });
   }
