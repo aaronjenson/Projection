@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import * as Raphael from 'raphael';
-import {Cube} from './cube';
+import {NCube} from './NCube';
 import {Rotation} from './rotation';
 import {interval, Subscription} from 'rxjs';
 import {MatDialog} from '@angular/material';
@@ -18,7 +18,7 @@ export class SvgComponent implements OnInit {
   dimensions: number;
   rotations: Rotation[];
   paper: RaphaelPaper;
-  cube: Cube;
+  cube: NCube;
   loop: Subscription;
   animate: boolean;
   velocityMult: number;
@@ -30,7 +30,7 @@ export class SvgComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dimensions = 2;
+    this.dimensions = 3;
     this.animate = true;
     this.reversed = false;
     this.velocityMult = 1;
@@ -59,7 +59,7 @@ export class SvgComponent implements OnInit {
 
   reset() {
     this.getRotations();
-    this.cube = new Cube(this.dimensions);
+    this.cube = new NCube(this.dimensions);
     this.redraw();
   }
 
