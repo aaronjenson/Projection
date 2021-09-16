@@ -19,6 +19,7 @@
                    max="12" matTooltip="Change number of dimensions">
           </mat-form-field>
           <div>
+
             <button mat-icon-button (click)="reversed=!reversed" matTooltip="Toggle rotation direction"
                     matTooltipPosition="left">
               <mat-icon *ngIf="!reversed">fast_rewind</mat-icon>
@@ -30,6 +31,7 @@
               <mat-icon *ngIf="animate">pause</mat-icon>
             </button>
           </div>
+          <mat-slide-toggle fxFlex [(ngModel)]="axonometric">Axonometric?</mat-slide-toggle>
         </div>
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <mat-label fxFlex="30">Velocity:</mat-label>

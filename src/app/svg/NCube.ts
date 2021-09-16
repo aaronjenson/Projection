@@ -78,11 +78,15 @@ export class NCube {
     return output;
   }
 
-  private project(point: number[]) {
-    const retVal = point.slice();
-    while (retVal.length > 2) {
+  private project(point: number[], axonometric: boolean) {
+    let retVal = point.slice();
+    if (!axonometric) {
+      while (retVal.length > 2) {
       const scale = 1 / (NCube.CAMERA_DIST - retVal.pop());
       retVal.forEach((val, i, arr) => arr[i] *= scale);
+      }
+    } else {
+      retVal = retVal.slice(0, 2);
     }
     return retVal;
   }
@@ -91,9 +95,9 @@ export class NCube {
     return (((val - inMin) / (inMax - inMin)) * (outMax - outMin)) + outMin;
   }
 
-  public draw(paper: RaphaelPaper, rotations: Rotation[]) {
+  public draw(paper: RaphaelPaper, rotations: Rotation[], axonometric: boolean) {
     const paperPoints = Matrix.mult(this.points, this.rotationMatrix(rotations)).map((point) =>
-      this.project(point).map((val) =>
+      this.project(point, axonometric).map((val) =>
         this.map(val, NCube.COORD_ONE - 0.125, NCube.COORD_TWO + 0.125, 0, paper.width)));
     paperPoints.forEach((point) => this.drawPoint(paper, point));
     this.connections.forEach((con) => this.drawConnection(paper, paperPoints[con[0]], paperPoints[con[1]]));

@@ -24,6 +24,7 @@ export class SvgComponent implements OnInit {
   velocityMult: number;
   reversed: boolean;
   lastTime: number;
+  axonometric: boolean;
 
   constructor(public dialog: MatDialog) {
     this.lastTime = Date.now();
@@ -34,6 +35,7 @@ export class SvgComponent implements OnInit {
     this.animate = true;
     this.reversed = false;
     this.velocityMult = 1;
+    this.axonometric = true;
 
     const container = document.getElementById('canvas_container');
     this.paper = Raphael(container, container.offsetWidth, container.offsetHeight);
@@ -65,7 +67,7 @@ export class SvgComponent implements OnInit {
 
   redraw() {
     this.paper.clear();
-    this.cube.draw(this.paper, this.rotations);
+    this.cube.draw(this.paper, this.rotations, this.axonometric);
   }
 
   toDegrees(rad: number) {
